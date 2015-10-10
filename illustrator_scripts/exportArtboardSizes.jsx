@@ -1,18 +1,27 @@
-#target illustrator  
-  
-artboardToPNGs();  
-  
-function artboardToPNGs() {  
-  
-    var folder = Folder.selectDialog();
-    //var folder = Folder("~/Desktop")
-    //$.writeln(folder.constructor.name)
-    //if ( parseFloat( app.version ) < 15 ) { return; }  
-  
-    if ( app.documents.length == 0 ) { return; }  
-  
-    //app.userInteractionLevel = UserInteractionLevel.DONTDISPLAYALERTS;  
-  
+try {
+
+    if (app.documents.length > 0 ) {
+
+        var folder = null;
+        folder = Folder.selectDialog( 'Select directory for the png files.', '~' );
+
+        if (folder != null) {
+
+            //var folder = Folder("~/Desktop")
+            //$.writeln(folder.constructor.name)
+            artboardToPNGs(folder);
+        }
+    }
+    else{
+        throw new Error('There are no document open!');
+    }
+}
+catch(e) {
+    alert( e.message, "Script Alert", true);
+}
+
+function artboardToPNGs(folder) {  
+
     var i, j, png24Opts, doc, artBds, scale, pngFile;  
   
     var numSizes = 3
@@ -55,7 +64,5 @@ function artboardToPNGs() {
         }
     }
   
-    app.userInteractionLevel = UserInteractionLevel.DISPLAYALERTS;  
     alert(successfulExports + " assets exported to: \n\"" + folder.fsName +"\"");  
-  
 };  
